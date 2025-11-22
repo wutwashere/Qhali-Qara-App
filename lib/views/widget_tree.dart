@@ -24,7 +24,7 @@ class WidgetTree extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Qhali Qara'),
+        backgroundColor: Colors.amber,
         actions: [
           IconButton(
             onPressed: () {

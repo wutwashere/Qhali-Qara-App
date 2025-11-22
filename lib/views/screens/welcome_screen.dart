@@ -9,7 +9,7 @@ class WelcomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.all(20.0),
+        padding: const EdgeInsets.all(10.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -31,7 +31,7 @@ class WelcomeScreen extends StatelessWidget {
                   style: OutlinedButton.styleFrom(
                     backgroundColor: Colors.white,
                     foregroundColor: Colors.black,
-                    padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 25.0),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
@@ -52,7 +52,7 @@ class WelcomeScreen extends StatelessWidget {
                   style: OutlinedButton.styleFrom(
                     backgroundColor: Colors.black,
                     foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 25.0),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),

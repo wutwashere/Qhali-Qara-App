@@ -24,7 +24,7 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(
-            seedColor: Colors.amberAccent,
+            seedColor: Color.fromRGBO(215, 206, 181, 1.0),
             brightness: Brightness.light,
         ),
       ),
