@@ -439,6 +439,260 @@ class _CameraScreenState extends State<CameraScreen> {
     }
   }
 
+  // OPCIÓN 1 - BARRAS DE PROBABILIDADES
+  Widget _buildProbabilityBars() {
+    // Siempre mostrar las barras, incluso cuando no hay detección
+    final allPredictions = _currentPrediction?['all_predictions'] as List<double>?;
+
+    return Positioned(
+      bottom: 100,
+      left: 20,
+      right: 20,
+      child: Container(
+        padding: EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          color: Colors.black.withOpacity(0.8),
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: Colors.white.withOpacity(0.3), width: 1),
+        ),
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  _currentPrediction != null ? Icons.analytics : Icons.search,
+                  color: _currentPrediction != null ? Colors.amber : Colors.grey,
+                  size: 16,
+                ),
+                SizedBox(width: 6),
+                Text(
+                  _currentPrediction != null ? 'PROBABILIDADES' : 'BUSCANDO...',
+                  style: TextStyle(
+                    color: _currentPrediction != null ? Colors.white : Colors.grey,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 12,
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 8),
+            ..._buildProbabilityBarsList(allPredictions),
+          ],
+        ),
+      ),
+    );
+  }
+
+  List<Widget> _buildProbabilityBarsList(List<double>? probabilities) {
+    // Si no hay predicciones, mostrar barras vacías
+    if (probabilities == null) {
+      return classes.asMap().entries.map((entry) {
+        final className = entry.value;
+        final color = _getColorByClass(className).withOpacity(0.3);
+
+        return Column(
+          children: [
+            Row(
+              children: [
+                // Icono deshabilitado
+                Container(
+                  width: 24,
+                  height: 24,
+                  decoration: BoxDecoration(
+                    color: color.withOpacity(0.1),
+                    shape: BoxShape.circle,
+                    border: Border.all(color: color, width: 1),
+                  ),
+                  child: Icon(
+                    _getIconByClass(className),
+                    color: color,
+                    size: 12,
+                  ),
+                ),
+                SizedBox(width: 8),
+                SizedBox(
+                  width: 70,
+                  child: Text(
+                    _getShortName(className),
+                    style: TextStyle(
+                      color: Colors.grey,
+                      fontSize: 11,
+                    ),
+                  ),
+                ),
+                SizedBox(width: 8),
+
+                // Barra vacía
+                Expanded(
+                  child: Stack(
+                    children: [
+                      Container(
+                        height: 16,
+                        decoration: BoxDecoration(
+                          color: Colors.grey[700],
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                      Container(
+                        height: 16,
+                        width: 0, // Barra vacía
+                        decoration: BoxDecoration(
+                          color: color,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(width: 8),
+
+                // Porcentaje 0%
+                Container(
+                  width: 35,
+                  alignment: Alignment.centerRight,
+                  child: Text(
+                    '0%',
+                    style: TextStyle(
+                      color: Colors.grey,
+                      fontSize: 12,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 6),
+          ],
+        );
+      }).toList();
+    }
+
+    // Si hay predicciones, mostrar normalmente
+    final maxProbability = probabilities.reduce((a, b) => a > b ? a : b);
+
+    return classes.asMap().entries.map((entry) {
+      final index = entry.key;
+      final className = entry.value;
+      final probability = probabilities[index];
+      final color = _getColorByClass(className);
+      final isMaxProbability = probability == maxProbability;
+
+      return Column(
+        children: [
+          Row(
+            children: [
+              Container(
+                width: 24,
+                height: 24,
+                decoration: BoxDecoration(
+                  color: color.withOpacity(0.2),
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: color,
+                    width: isMaxProbability ? 2 : 1,
+                  ),
+                ),
+                child: Icon(
+                  _getIconByClass(className),
+                  color: color,
+                  size: 12,
+                ),
+              ),
+              SizedBox(width: 8),
+              SizedBox(
+                width: 70,
+                child: Text(
+                  _getShortName(className),
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 11,
+                    fontWeight: isMaxProbability ? FontWeight.bold : FontWeight.normal,
+                  ),
+                ),
+              ),
+              SizedBox(width: 8),
+
+              Expanded(
+                child: Stack(
+                  children: [
+                    Container(
+                      height: 16,
+                      decoration: BoxDecoration(
+                        color: Colors.grey[800],
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
+                    Container(
+                      height: 16,
+                      width: probability * (MediaQuery.of(context).size.width - 180),
+                      decoration: BoxDecoration(
+                        color: color,
+                        borderRadius: BorderRadius.circular(8),
+                        boxShadow: [
+                          BoxShadow(
+                            color: color.withOpacity(0.5),
+                            blurRadius: 4,
+                            spreadRadius: 1,
+                          ),
+                        ],
+                      ),
+                    ),
+                    if (probability > 0.15)
+                      Container(
+                        height: 16,
+                        width: probability * (MediaQuery.of(context).size.width - 180),
+                        alignment: Alignment.centerRight,
+                        padding: EdgeInsets.only(right: 8),
+                        child: Text(
+                          '${(probability * 100).toStringAsFixed(0)}%',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 9,
+                            fontWeight: FontWeight.bold,
+                            shadows: [
+                              Shadow(
+                                color: Colors.black,
+                                blurRadius: 2,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                  ],
+                ),
+              ),
+              SizedBox(width: 8),
+
+              Container(
+                width: 35,
+                alignment: Alignment.centerRight,
+                child: Text(
+                  '${(probability * 100).toStringAsFixed(0)}%',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 6),
+        ],
+      );
+    }).toList();
+  }
+
+  String _getShortName(String className) {
+    switch (className) {
+      case 'Squamous_Cell_Carcinoma': return 'Squamous';
+      case 'Basal_Cell_Carcinoma': return 'Basal Cell';
+      case 'Melanoma': return 'Melanoma';
+      case 'Benign': return 'Benigno';
+      default: return className;
+    }
+  }
+
   void _saveToHistory(HistoryRecord record) {
     addHistoryRecord(record);
     _showSaveSuccess();
@@ -475,6 +729,8 @@ class _CameraScreenState extends State<CameraScreen> {
                 _buildUserGuidance(),
                 if (_currentPrediction != null)
                   _buildPredictionOverlay(),
+
+                /*_buildProbabilityBars(),*/
                 _buildCaptureButton(),
               ],
             );
@@ -617,17 +873,17 @@ class _CameraScreenState extends State<CameraScreen> {
                 style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
-                  fontSize: 16,
+                  fontSize: 12,
                 ),
               ),
             ),
           ),
         Positioned(
           bottom: 120,
-          left: 20,
-          right: 20,
+          left: 50,
+          right: 50,
           child: Container(
-            padding: EdgeInsets.all(16),
+            padding: EdgeInsets.all(10),
             decoration: BoxDecoration(
               color: Colors.black.withOpacity(0.7),
               borderRadius: BorderRadius.circular(16),
@@ -639,7 +895,7 @@ class _CameraScreenState extends State<CameraScreen> {
                   style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
-                    fontSize: 16,
+                    fontSize: 12,
                   ),
                 ),
                 SizedBox(height: 8),
@@ -651,7 +907,7 @@ class _CameraScreenState extends State<CameraScreen> {
                       '- Espera el indicador',
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 14,
+                    fontSize: 12,
                   ),
                 )
               ],

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:qhaliqara_app/views/screens/welcome_screen.dart';
 
 void main() {
@@ -18,6 +19,20 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  @override
+  void initState() {
+    super.initState();
+    // Bloquear orientación al iniciar
+    _setOrientation();
+  }
+
+  Future<void> _setOrientation() async {
+    // Forzar orientación vertical
+    await SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+  }
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

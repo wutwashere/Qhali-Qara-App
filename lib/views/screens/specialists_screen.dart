@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:path/path.dart';
 
 import '../../models/specialist.dart';
 
@@ -169,10 +168,6 @@ class SpecialistsScreen extends StatelessWidget {
                         style: TextStyle(fontWeight: FontWeight.w500),
                       ),
                       SizedBox(width: 8),
-                      Text(
-                        '(${specialist.reviewCount} reviews)',
-                        style: TextStyle(color: Colors.grey, fontSize: 12),
-                      ),
                     ],
                   ),
                   SizedBox(height: 4),
