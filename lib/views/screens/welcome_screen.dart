@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:qhaliqara_app/views/widget_tree.dart';
+import 'package:qhaliqara_app/views/screens/login_screen.dart';
+import 'package:qhaliqara_app/views/screens/register_screen.dart';
 import 'package:qhaliqara_app/views/widgets/hero_widget.dart';
 
 class WelcomeScreen extends StatelessWidget {
@@ -23,7 +24,7 @@ class WelcomeScreen extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                         builder: (context) {
-                          return WidgetTree();
+                          return LoginScreen();
                         },
                       ),
                     );
@@ -44,7 +45,7 @@ class WelcomeScreen extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                         builder: (context) {
-                          return WidgetTree();
+                          return RegisterScreen();
                         },
                       ),
                     );

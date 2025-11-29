@@ -5,7 +5,6 @@ import 'package:qhaliqara_app/views/screens/camera_screen.dart';
 import 'package:qhaliqara_app/views/screens/home_screen.dart';
 import 'package:qhaliqara_app/views/screens/map_screen.dart';
 import 'package:qhaliqara_app/views/screens/profile_screen.dart';
-import 'package:qhaliqara_app/views/screens/settings_screen.dart';
 
 import 'widgets/navbar_widget.dart';
 
@@ -26,19 +25,6 @@ class WidgetTree extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.amber,
         actions: [
-          IconButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) {
-                    return SettingsScreen();
-                    },
-                  ),
-              );
-            },
-            icon: Icon(Icons.settings),
-          ),
         ],
       ),
       body: ValueListenableBuilder(

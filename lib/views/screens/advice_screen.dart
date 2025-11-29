@@ -19,7 +19,7 @@ class AdviceScreen extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            _AdviceCard(
+            _adviceCard(
               imagePath: 'assets/images/detecciontemprana.png',
               title: 'Manual para la detección temprana de cáncer de piel',
               onTap: () {
@@ -27,9 +27,10 @@ class AdviceScreen extends StatelessWidget {
               },
             ),
             SizedBox(height: 16),
-            _AdviceCard(
+            _adviceCard(
                 imagePath: 'assets/images/prevencion.png',
-                title: 'Manual de prevención del cáncer de piel inducido por la exposición prolongada a la radiación ultravioleta (RUV)',
+                title: 'Manual de prevención del cáncer de piel inducido por la '
+                    'exposición prolongada a la radiación ultravioleta (RUV)',
                 onTap: () {
 
                 }
@@ -40,8 +41,7 @@ class AdviceScreen extends StatelessWidget {
     );
   }
 
-  @override
-  Widget _AdviceCard({
+  Widget _adviceCard({
     required String imagePath,
     required String title,
     required VoidCallback onTap,

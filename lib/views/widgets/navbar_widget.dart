@@ -14,13 +14,7 @@ class NavbarWidget extends StatelessWidget {
           indicatorColor: Colors.amberAccent,
           backgroundColor: Color.fromRGBO(46, 58, 89, 1.0),
           destinations: [
-            NavigationDestination(
-                icon: Icon(
-                  Icons.home,
-                  color: Colors.amber[50],
-
-                ),
-                label: ''),
+            NavigationDestination(icon: Icon(Icons.home, color: Colors.amber[50]), label: ''),
             NavigationDestination(icon: Icon(Icons.menu_book, color: Colors.amber[50]), label: ''),
             NavigationDestination(icon: Icon(Icons.remove_red_eye, color: Colors.amber[50]), label: ''),
             NavigationDestination(icon: Icon(Icons.map, color: Colors.amber[50]), label: ''),
